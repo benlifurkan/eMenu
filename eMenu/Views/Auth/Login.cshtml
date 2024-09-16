@@ -1,0 +1,125 @@
+﻿@{
+    Layout = "";
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Giriş Yap</title>
+    <link rel="shortcut icon" type="image/png" href="~/template/src/assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="~/template/src/assets/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                <div class="row justify-content-center w-100">
+                    <div class="col-md-8 col-lg-6 col-xxl-3">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <a href="@Url.Action("Login", "Auth")" class=" mb-8 text-nowrap logo-img text-center d-block py-3 w-100">
+                                    <img src="~/template/src/assets/images/logos/yakamoz-res-logo.png" width="180" alt="">
+                                </a>
+                                @*<p class="text-center">Aradığınız her şey...</p>*@
+                                <form method="post" action="@Url.Action("Login", "Auth")">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">E-mail</label>
+                                        <input value="emrecanbudak@gmail.com" name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="exampleInputPassword1" class="form-label">Şifre</label>
+                                        <div class="input-group">
+                                            <input value="123" name="password" type="password" class="form-control" id="password">
+                                            <button type="button" class="btn btn-primary" id="showPass">
+                                                <i id="showPassIco" class="bi bi-eye-fill"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Giriş Yap</button>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p class="fs-3 mb-0 fw-bold">Burada yeni misin?</p>
+                                        <a class="text-primary fs-3 mb-0 fw-bold ms-2" href="@Url.Action("Register","Auth")">Hesap Oluştur</a>
+                                    </div>
+                                </form>
+
+                                @if (TempData["ErrorMessage"] != null)
+                                {
+                                    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="d-flex">
+                                                <div class="toast-body">
+                                                    @TempData["ErrorMessage"]
+                                                </div>
+                                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                        <div id="successToast" class="toast align-items-center text-black bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="d-flex">
+                                                <div class="toast-body">
+                                                    @TempData["SuccessMessage"]
+                                                </div>
+                                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/template/src/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/template/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    $(document).ready(function () {
+            $('#showPass').click(function () {
+                var pass = $('#password');
+                if (pass.attr('type') === 'password') {
+                    pass.attr('type', 'text');
+                    $('#showPassIco').removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+                } else {
+                    pass.attr('type', 'password');
+                    $('#showPassIco').removeClass('bi-eye-slash-fill').addClass('bi-eye-fill');
+                }
+            });
+        });
+    </script>
+    <!-- Bootstrap Toast Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var errorToast = document.getElementById('errorToast');
+            var successToast = document.getElementById('successToast');
+
+            if (errorToast) {
+                var toast = new bootstrap.Toast(errorToast);
+                toast.show();
+            }
+
+            if (successToast) {
+                var toast = new bootstrap.Toast(successToast);
+                toast.show();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "YiyecekEkle";
+    Layout = "~/Views/Shared/Panel_Layout.cshtml";
+}
+
+@model eMenu.Models.MenuModels.MenuDuzenleViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Yiyecek/İçecek Ekle</title>
+    <link rel="shortcut icon" type="image/png" href="~/template/src/assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="~/template/src/assets/css/styles.min.css" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="card">
+            <form id="urunForm" method="post" action="@Url.Action("YiyecekEkle", "Panel")" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="menuID" class="form-label">Menü Seçin</label>
+                    @Html.DropDownList("menuID", Model.Menus, "Menü Seçiniz", new { @class = "form-control" })
+                </div>
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Yiyecek/İçecek Adı</label>
+                    <input name="name" type="text" class="form-control" id="name" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Açıklama</label>
+                    <input name="description" type="text" class="form-control" id="description" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Fiyat</label>
+                    <input name="price" type="number" class="form-control" id="price" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="imagePath" class="form-label">Yiyecek/İçecek Resmi Yükle</label>
+                    <input name="imagePath" type="file" class="form-control" id="imagePath">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Ekle</button>
+            </form>
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                    <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                @TempData["ErrorMessage"]
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                    <div id="successToast" class="toast align-items-center text-black bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                @TempData["SuccessMessage"]
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            $('#menuID').change(function () {
+                var selectedOption = $(this).find("option:selected");
+                var name = selectedOption.text();
+                $('#name').val(name);
+            });
+        });
+    </script>
+    <!-- Bootstrap Toast Script -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+            var errorToast = document.getElementById('errorToast');
+            var successToast = document.getElementById('successToast');
+
+            if (errorToast) {
+                var toast = new bootstrap.Toast(errorToast);
+                toast.show();
+            }
+
+            if (successToast) {
+                var toast = new bootstrap.Toast(successToast);
+                toast.show();
+            }
+        });</script>
+</body>
+</html>
+

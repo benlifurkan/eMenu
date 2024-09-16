@@ -1,0 +1,306 @@
+﻿@using System.Web
+@using eMenu.Models
+@{
+    Layout = null; // Assuming this is the main layout file
+    var link = Request.Url.GetLeftPart(UriPartial.Authority);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>eMenu | Yakamoz Cafe & Bistro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/&#64;mdi/font@7.4.47/css/materialdesignicons.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #f7f9fc;
+        }
+
+        .navbar {
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: black;
+            transition: color 0.5s;
+        }
+
+            .navbar-brand:hover {
+                color: dimgrey;
+            }
+
+        .nav-link {
+            font-size: 1.1rem;
+            margin-left: 1rem;
+            color: #ccc;
+            transition: color 0.3s;
+        }
+
+            .nav-link:hover {
+                color: #f39c12;
+            }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .mdi {
+            font-size: 1.8rem;
+        }
+
+
+        .nav-link {
+            font-size: 1.1rem;
+            margin-left: 1rem;
+            color: black;
+            transition: color 0.5s;
+        }
+
+        .nav-link:hover {
+            color: dimgrey;
+        }
+
+        .nav-link.active {
+            color: #f39c12;
+        }
+
+        .mdi {
+            font-size: 1.5rem;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .rounded-xl {
+            border-radius: 12px;
+        }
+
+        .container-fluid {
+            max-width: 1200px;
+        }
+
+        footer {
+            background-color: white;
+            color: white;
+            padding: 20px 0;
+        }
+
+            footer a {
+                color: white;
+                transition: color 0.3s;
+            }
+
+                footer a:hover {
+                    color: #ffc107;
+                }
+
+            footer .rounded-lg {
+                border-radius: 12px;
+            }
+
+            footer i {
+                color: black;
+                font-size: 24px;
+                transition: all 0.5s;
+            }
+
+                footer i:hover {
+                    transform: scale(1.2);
+                    color: dimgrey;
+                }
+
+        #qr-code {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Media queries */
+        &#64;media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.3rem;
+            }
+
+            .nav-link {
+                font-size: 1rem;
+                margin-left: 0;
+                margin-right: 0.5rem;
+            }
+
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            #qr-code {
+                margin-bottom: 1.5rem;
+            }
+
+            iframe {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <div class="container-fluid">
+                <!-- Marka İsmi ve Logo -->
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                    @*<i class="mdi mdi-coffee-outline me-2" style="font-size: 2rem;"></i>
+        <span class="fs-4 fw-bold">Yakamoz Cafe & Bistro</span>*@
+                    <img src="~/template/src/assets/images/logos/yakamoz-res-logo.png" width="180" alt="" />
+                </a>
+
+                <!-- Hamburger Menu (Mobil Görünüm) -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Menü Bağlantıları -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="tel:02624545073">
+                                <i class="mdi mdi-phone me-2" style="font-size: 1.5rem;"></i>
+                                <span class="d-none d-lg-inline"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="@Url.Action("Register","Auth")">
+                                <i class="mdi mdi-account-plus me-2" style="font-size: 1.5rem;"></i>
+                                <span class="d-none d-lg-inline"></span>
+                            </a>
+                        </li>
+                        @using eMenu.Models
+
+                        @{
+                            var user = Session["user"] as User;
+
+                            if (user != null)
+                            {
+                                if (user.authorityID == 1)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link d-flex align-items-center" href="@Url.Action("MenuEkle", "Panel")">
+                                            <i class="mdi mdi-grid-large me-2" style="font-size: 1.5rem;"></i>
+                                            <span class="d-none d-lg-inline"></span>
+                                        </a>
+                                    </li>
+                                }
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center" href="@Url.Action("Logout", "Auth")">
+                                        <i class="mdi mdi-logout me-2 text-danger" style="font-size: 1.5rem;"></i>
+                                        <span class="d-none d-lg-inline"></span>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center" href="@Url.Action("Login", "Auth")">
+                                        <i class="mdi mdi-login me-2 text-success" style="font-size: 1.5rem;"></i>
+                                        <span class="d-none d-lg-inline"></span>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main class="container my-5">
+        @RenderBody()
+    </main>
+
+    <footer class="mt-5 bg-light text-black py-4">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap">
+            <!-- Google Maps ve QR Kod Kısmı -->
+            <div class="d-flex justify-content-between w-100 mb-4">
+                <!-- Google Maps Embed -->
+                <iframe title="Yakamoz Cafe & Bistro"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5087.637803938616!2d29.608365850198396!3d40.69318871080927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cb17f1ebf9e0af%3A0x652e3d36b27975bf!2sYakamoz%20Cafe%20%26%20Bistro!5e0!3m2!1str!2str!4v1726175806441!5m2!1str!2str"
+                        width="100%"
+                        height="300"
+                        style="border:0;"
+                        allowfullscreen="false"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        class="rounded-lg shadow-lg me-5"></iframe>
+
+                <!-- QR Code -->
+                <div id="qr-code" class="d-flex justify-content-center align-items-center" style="width: 150px; height: 150px;"></div>
+            </div>
+
+            <!-- Alt Bölüm: Sol - Yazı, Sağ - Sosyal Medya -->
+            <div class="w-100 d-flex justify-content-between align-items-center">
+                <!-- © 2024 - Tüm hakları saklıdır - Yakamoz Cafe & Bistro -->
+                <span>&copy; 2024 - Tüm hakları saklıdır - Yakamoz Cafe & Bistro</span>
+
+                <!-- Sosyal Medya Bağlantıları -->
+                <div class="d-flex">
+                    <a href="https://www.instagram.com/yakamozcafebistro/" target="_blank" class="mx-2 text-white">
+                        <i class="mdi mdi-instagram mdi-24px"></i>
+                    </a>
+                    <a href="https://www.facebook.com/people/yakamozcafebistro/" target="_blank" class="mx-2 text-white">
+                        <i class="mdi mdi-facebook mdi-24px"></i>
+                    </a>
+                    <a href="https://www.x.com/yakamozcafebistro" target="_blank" class="mx-2 text-white">
+                        <i class="mdi mdi-twitter mdi-24px"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var qr = new QRious({
+                element: document.getElementById('qr-code'),
+                value: '@link',
+                size: 150,
+                level: 'H',
+                margin: 0
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        function aktifURLyiAl() {
+            // Aktif olan URL'yi al ve QR kodu oluştur
+            var aktifURL = window.location.href;
+
+            // QR kodu oluştur ve div içine yerleştir
+            var qrcode = new QRCode(document.getElementById("qr-code"), {
+                text: aktifURL,
+                width: 150,
+                height: 150
+            });
+        }
+
+        // Sayfa yüklendiğinde QR kodu oluştur
+        window.onload = aktifURLyiAl;
+    </script>
+</body>
+
+</html>

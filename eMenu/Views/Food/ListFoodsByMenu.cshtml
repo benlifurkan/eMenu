@@ -1,0 +1,53 @@
+﻿@model IEnumerable<eMenu.Models.Foods>
+
+@{
+    ViewBag.Title = "ListFoodsByMenu";
+    Layout = "~/Views/Shared/Musteri_Layout.cshtml";
+}
+
+<h2 class="my-5">@ViewBag.MenuName</h2>
+<p class="my-5">@ViewBag.MenuDescription</p>
+
+<div class="container">
+    <div class="row">
+        @foreach (var food in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="food-card card shadow-lg border-0 h-100">
+                    <div class="position-relative">
+                        <img src="@food.imagePath" class="card-img-top" alt="@food.name">
+                        <span class="price-tag position-absolute top-0 end-0 bg-danger text-white px-2 py-1 rounded-2">
+                            @food.price.ToString("C")
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@food.name</h5>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .price-tag {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .food-card {
+        transition: transform 0.2s;
+    }
+
+        .food-card:hover {
+            transform: scale(1.05);
+        }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+</style>
+
+
+

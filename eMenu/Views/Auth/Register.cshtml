@@ -1,0 +1,130 @@
+﻿
+@{
+    Layout = "";
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kayıt Ol</title>
+    <link rel="shortcut icon" type="image/png" href="~/template/src/assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="~/template/src/assets/css/styles.min.css" />
+</head>
+
+<body>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                <div class="row justify-content-center w-100">
+                    <div class="col-md-8 col-lg-8 col-xxl-6">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <a href="@Url.Action("Register", "Auth")" class=" mb-8 text-nowrap logo-img text-center d-block py-3 w-100">
+                                    <img src="~/template/src/assets/images/logos/yakamoz-res-logo.png" width="180" alt="">
+                                </a>
+                                <form method="post" action="@Url.Action("Register", "Auth")">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="nameInput" class="form-label">Ad</label>
+                                                <input name="name" type="text" class="form-control" id="nameInput" aria-describedby="textHelp">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="surnameInput" class="form-label">Soyad</label>
+                                                <input name="surname" type="text" class="form-control" id="surnameInput" aria-describedby="textHelp">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="emailInput" class="form-label">E-mail</label>
+                                                <input name="email" type="email" class="form-control" id="emailInput" aria-describedby="textHelp">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="passwordInput" class="form-label">Şifre</label>
+                                                <input name="password" type="password" class="form-control" id="passwordInput" aria-describedby="textHelp">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="usernameInput" class="form-label">Kullanıcı Adı</label>
+                                                <input name="username" type="text" class="form-control" id="usernameInput" aria-describedby="textHelp">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Kayıt Ol</button>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <p class="fs-4 mb-0 fw-bold">Zaten bir hesabın var mı?</p>
+                                        <a class="text-primary fw-bold ms-2" href="@Url.Action("Login","Auth")">Giriş Yap</a>
+                                    </div>
+                                </form>
+
+                                @if (TempData["ErrorMessage"] != null)
+                                {
+                                    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="d-flex">
+                                                <div class="toast-body">
+                                                    @TempData["ErrorMessage"]
+                                                </div>
+                                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                        <div id="successToast" class="toast align-items-center text-black bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="d-flex">
+                                                <div class="toast-body">
+                                                    @TempData["SuccessMessage"]
+                                                </div>
+                                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="~/template/src/assets/libs/jquery/dist/jquery.min.js"></script>
+        <script src="~/template/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap Toast Script -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var errorToast = document.getElementById('errorToast');
+                var successToast = document.getElementById('successToast');
+
+                if (errorToast) {
+                    var toast = new bootstrap.Toast(errorToast);
+                    toast.show();
+                }
+
+                if (successToast) {
+                    var toast = new bootstrap.Toast(successToast);
+                    toast.show();
+                }
+            });
+        </script>
+</body>
+
+</html>
